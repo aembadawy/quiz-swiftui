@@ -8,7 +8,7 @@
 import Foundation
 
 struct QuizModel {
-    
+    let questions: [Question]
 }
 
 struct Question: Identifiable {
