@@ -8,9 +8,17 @@
 import SwiftUI
 
 struct QuizAppView: View {
+    let quiz: QuizModel = QuizModel.mock
+    @State private var currentQuestion: Question?
+    @State private var selectedAnswer: String?
+    
+    init() {
+        _currentQuestion = State(initialValue: quiz.questions.first)
+    }
+    
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
-            Text("What is the function of view model in MVVM architecture?")
+            Text(currentQuestion?.prompt ?? "")
                 .font(.headline)
                 .fontWeight(.semibold)
             
@@ -31,23 +39,29 @@ struct QuizAppView: View {
         .padding(.bottom)
         
         VStack(spacing: 12) {
-            ForEach(0 ..< 4, id: \.self) { choice in
-                
-                Button {
-                    //select answer
-                } label: {
-                    Text("Display answer here for now")
-                        .padding(.horizontal)
-                        .font(.subheadline)
-                        .multilineTextAlignment(.leading)
-                        .foregroundStyle(.black)
-                        .frame(width: 350, height: 48, alignment: .leading)
-                        .overlay {
-                            RoundedRectangle(cornerRadius: 10)
-                                .stroke(.gray, lineWidth: 1.0)
+            if let currentQuestion = currentQuestion {
+                ForEach(currentQuestion.choices, id: \.self) { choice in
+                    
+                    Button {
+                        self.selectedAnswer = choice
+                    } label: {
+                        Text(choice)
+                            .padding(.horizontal)
+                            .font(.subheadline)
+                            .multilineTextAlignment(.leading)
+                            .foregroundStyle(.black)
+                            .frame(width: 350, height: 48, alignment: .leading)
+                            .overlay {
+                                RoundedRectangle(cornerRadius: 10)
+                                    .stroke(
+                                        selectedAnswer != choice ? .gray : .blue,
+                                        lineWidth: selectedAnswer != choice ?  1.0 : 3.0
+                                    )
 
-                        }
-                }.padding(.horizontal, 8)
+                            }
+                            
+                    }.padding(.horizontal, 8)
+                }
             }
         }
         
@@ -65,7 +79,10 @@ struct QuizAppView: View {
                 .background(.blue)
                 .clipShape(.rect(cornerRadius: 10))
                 
-        }.padding(.all, 8)
+        }
+        .padding(.all, 8)
+        .disabled(selectedAnswer == nil)
+        .opacity(selectedAnswer == nil ? 0.5 : 1.0)
         
     }
 }
