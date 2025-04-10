@@ -9,11 +9,13 @@ import SwiftUI
 
 struct QuizAppView: View {
     @State private var viewModel = QuizViewModel()
+    @State private var showResultsSheet = false
     
     var body: some View {
         VStack {
             if viewModel.showCompletedQuizView {
-                CompletedQuizView()
+                CompletedQuizView(showResultsSheet: $showResultsSheet)
+                    .environment(viewModel)
             } else {
                 VStack(alignment: .leading, spacing: 8) {
                     Text(viewModel.currentQuetion.prompt)
@@ -81,6 +83,10 @@ struct QuizAppView: View {
                 .disabled(viewModel.selectedAnswer == nil)
                 .opacity(viewModel.selectedAnswer == nil ? 0.5 : 1.0)
             }
+        }
+        .sheet(isPresented: $showResultsSheet) {
+            QuizResultsView()
+                .environment(viewModel)
         }
         
         

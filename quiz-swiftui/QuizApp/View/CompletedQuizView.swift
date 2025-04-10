@@ -8,6 +8,10 @@
 import SwiftUI
 
 struct CompletedQuizView: View {
+    @Binding var showResultsSheet: Bool
+    @Environment(\.dismiss) var dismiss
+    @Environment(QuizViewModel.self) var viewModel
+    
     var body: some View {
         VStack(spacing: 8){
             Text("Congratulations! you've completed the quiz!")
@@ -20,7 +24,7 @@ struct CompletedQuizView: View {
                 .font(.footnote)
             
             Button {
-                //view results
+                showResultsSheet.toggle()
             } label: {
                 Text("View results")
                     .foregroundStyle(.white)
@@ -31,9 +35,8 @@ struct CompletedQuizView: View {
             }
             .padding(.top)
             
-
             Button {
-                //stratover
+                viewModel.restartQuiz()
             } label: {
                 Text("Start Over")
                     .foregroundStyle(.blue)
@@ -43,10 +46,16 @@ struct CompletedQuizView: View {
             
             
         }
+        .sheet(isPresented: $showResultsSheet) {
+            QuizResultsView()
+                .environment(viewModel)
+        }
         .padding(.horizontal, 24)
     }
 }
 
 #Preview {
-    CompletedQuizView()
+    @Previewable @State var showResultsSheet = false
+    CompletedQuizView(showResultsSheet: $showResultsSheet)
+        .environment(QuizViewModel())
 }
