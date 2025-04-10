@@ -15,6 +15,8 @@ class QuizViewModel {
     var correctAnswerCount = 0
     var selectedAnswer: String?
 
+    var showCompletedQuizView = false
+    
     var incorrectAnswersCount: Int {
         return quiz.questions.count - correctAnswerCount
     }
@@ -36,6 +38,8 @@ class QuizViewModel {
         
         if currentQuestionIndex + 1 < quiz.questions.count {
             currentQuestionIndex += 1 //go to next question
+        } else {
+            showCompletedQuizView = true
         }
         
         self.selectedAnswer = nil
