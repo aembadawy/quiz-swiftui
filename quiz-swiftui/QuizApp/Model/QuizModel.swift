@@ -11,7 +11,7 @@ struct QuizModel {
     let questions: [Question]
 }
 
-struct Question: Identifiable {
+struct Question: Identifiable, Equatable {
     let id: String = UUID().uuidString
     let prompt: String
     let choices: [String]
