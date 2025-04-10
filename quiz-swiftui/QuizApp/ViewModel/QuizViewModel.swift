@@ -25,6 +25,10 @@ class QuizViewModel {
         return quiz.questions[currentQuestionIndex]
     }
     
+    var finalScorePercentage: Int {
+        return Int((Double(correctAnswerCount) / Double(quiz.questions.count)) * 100)
+    }
+    
     init() {
         self.quiz = QuizModel.mock
     }
@@ -43,10 +47,6 @@ class QuizViewModel {
         } else {
             showCompletedQuizView = true
         }
-    }
-    
-    func getFinalScorePercentage() -> Int {
-        return correctAnswerCount / quiz.questions.count * 100
     }
     
     func restartQuiz() {
