@@ -15,6 +15,10 @@ class QuizViewModel {
     var correctAnswerCount = 0
     var selectedAnswer: String?
 
+    var incorrectAnswersCount: Int {
+        return quiz.questions.count - correctAnswerCount
+    }
+    
     var currentQuetion: Question {
         return quiz.questions[currentQuestionIndex]
     }
