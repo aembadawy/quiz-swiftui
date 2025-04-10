@@ -36,13 +36,13 @@ class QuizViewModel {
             correctAnswerCount += 1
         }
         
+        self.selectedAnswer = nil
+
         if currentQuestionIndex + 1 < quiz.questions.count {
             currentQuestionIndex += 1 //go to next question
         } else {
             showCompletedQuizView = true
         }
-        
-        self.selectedAnswer = nil
     }
     
     func getFinalScorePercentage() -> Int {
@@ -50,7 +50,10 @@ class QuizViewModel {
     }
     
     func restartQuiz() {
-        
+        currentQuestionIndex = 0
+        correctAnswerCount = 0
+        selectedAnswer = nil
+        showCompletedQuizView = false
     }
     
     func currentQuestionIndex(_ currentQuestion: Question) -> Int {
