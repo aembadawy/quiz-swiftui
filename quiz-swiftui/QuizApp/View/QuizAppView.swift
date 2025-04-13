@@ -8,14 +8,13 @@
 import SwiftUI
 
 struct QuizAppView: View {
-    @State private var viewModel = QuizViewModel()
+    @Environment(QuizViewModel.self) private var viewModel
     @State private var showResultsSheet = false
     
     var body: some View {
         VStack {
             if viewModel.showCompletedQuizView {
                 CompletedQuizView(showResultsSheet: $showResultsSheet)
-                    .environment(viewModel)
             } else {
                 VStack(alignment: .leading, spacing: 8) {
                     Text(viewModel.currentQuetion.prompt)
@@ -86,7 +85,6 @@ struct QuizAppView: View {
         }
         .sheet(isPresented: $showResultsSheet) {
             QuizResultsView()
-                .environment(viewModel)
         }
         
         
@@ -95,4 +93,5 @@ struct QuizAppView: View {
 
 #Preview {
     QuizAppView()
+        .environment(QuizViewModel())
 }

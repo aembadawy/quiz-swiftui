@@ -46,10 +46,6 @@ struct CompletedQuizView: View {
             
             
         }
-        .sheet(isPresented: $showResultsSheet) {
-            QuizResultsView()
-                .environment(viewModel)
-        }
         .padding(.horizontal, 24)
     }
 }
